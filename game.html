@@ -1,0 +1,133 @@
+<html>
+
+<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+<script>
+// Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCGQI1A3sN46bnPHRX0oYgb_jkuchbJasg",
+    authDomain: "sadasd-4fd36.firebaseapp.com",
+    databaseURL: "https://sadasd-4fd36.firebaseio.com",
+    projectId: "sadasd-4fd36",
+    storageBucket: "sadasd-4fd36.appspot.com",
+    messagingSenderId: "608876680870"
+  };
+  firebase.initializeApp(config);
+
+<canvas id ="gamer" width="800" height="600"></canvas>
+<script>
+var canvas;
+var canvasContext;
+var wingX=50;
+var wingY=50;
+var speedX=10;
+var speedY=4;
+
+var score1=0;
+var score2=0;
+
+var pad2Y=250;
+var pad1Y=250;
+const PADD_HT=100;
+const PADD_TH=10;
+function reset(){
+speedX=-speedX;
+wingX=canvas.width/2;
+wingY=canvas.height/2;
+}
+
+function mouser(evt){
+var rect=canvas.getBoundingClientRect();
+var root=document.documentElement;
+var mouX=evt.clientX-rect.left-root.scrollLeft;
+var mouY=evt.clientY-rect.top-root.scrollTop;
+return{
+x:mouX,
+y:mouY
+};
+}
+
+window.onload=function(){
+canvas=document.getElementById('gamer');
+canvasContext=canvas.getContext('2d');
+var fps=30;
+setInterval(caller,1000/fps);
+canvas.addEventListener('mousemove',function(evt){
+var mousePos= mouser(evt);
+pad1Y=mousePos.y-(PADD_HT/2);
+});
+}
+function movementert(){
+var apdc=pad2Y+(PADD_HT/2);
+if(apdc<wingY-35){
+pad2Y=pad2Y+6;
+}
+else if(apdc > wingY+35)
+{
+pad2Y=pad2Y-6;
+}
+}
+
+
+function caller(){
+mover();
+drawer();
+}
+
+function mover(){
+movementert();
+wingX=wingX +speedX;
+wingY=wingY +speedY;
+if(wingX<0)
+{
+if(wingY>pad1Y&&wingY<pad1Y+PADD_HT)
+{
+speedX=-speedX;
+var del=wingY-(pad1Y+PADD_HT/2);
+speedY=del*0.35
+}
+else{
+score2=score2+1;
+reset();
+}}
+if(wingX>=canvas.width)
+{
+if(wingY>pad2Y&&wingY<pad2Y+PADD_HT)
+{
+speedX=-speedX;
+var del=wingY-(pad2Y+PADD_HT/2);
+speedY=del*0.35
+}
+else{
+score1=score1+1;
+reset();
+}}
+if(wingY<0)
+{
+speedY=-speedY;
+}
+if(wingY>=canvas.height)
+{
+speedY=-speedY;
+}}
+
+function drawer() {
+COLORS(0,0,canvas.width,canvas.height,'black');//screen
+COLORS(0,pad1Y,PADD_TH,PADD_HT,'white'); //left
+COLORS(canvas.width-10,pad2Y,PADD_TH,PADD_HT,'white'); //right
+canvasContext.fillStyle='white';
+canvasContext.beginPath();
+canvasContext.arc(wingX,wingY,10,0,Math.PI*2,true);//ball
+canvasContext.fill();
+
+canvasContext.fillText(score1,100,100);
+canvasContext.fillText(score2,canvas.width-100,100);
+}
+
+function COLORS(leftx,topy,width,height,color){
+canvasContext.fillStyle=color;
+canvasContext.fillRect(leftx,topy,width,height);
+}
+</script>
+
+
+</html>
