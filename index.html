@@ -1,47 +1,26 @@
-<!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <title>Sample FirebaseUI App</title>
-    
-<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCGQI1A3sN46bnPHRX0oYgb_jkuchbJasg",
-    authDomain: "sadasd-4fd36.firebaseapp.com",
-    databaseURL: "https://sadasd-4fd36.firebaseio.com",
-    projectId: "sadasd-4fd36",
-    storageBucket: "sadasd-4fd36.appspot.com",
-    messagingSenderId: "608876680870"
-  };
-  firebase.initializeApp(config);
-</script>
-	<script src="https://cdn.firebase.com/libs/firebaseui/2.2.1/firebaseui.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.2.1/firebaseui.css" />
-    <script type="text/javascript">
-      // FirebaseUI config.
-      var uiConfig = {
-        signInSuccessUrl: 'game.html',
-        signInOptions: [
-          // Leave the lines as is for the providers you want to offer your users.
-          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-          firebase.auth.EmailAuthProvider.PROVIDER_ID
-        ],
-        // Terms of service url.
-        tosUrl: '<your-tos-url>'
-      };
-
-      // Initialize the FirebaseUI Widget using Firebase.
-      var ui = new firebaseui.auth.AuthUI(firebase.auth());
-      // The start method will wait until the DOM is loaded.
-      ui.start('#firebaseui-auth-container', uiConfig);
-    </script>
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="358460764013-b134nh3pe7kgn5pav3e4hekgtnns02v5.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
   </head>
   <body>
-    <!-- The surrounding HTML is left untouched by FirebaseUI.
-         Your app may use that space for branding, controls and other customizations.-->
-    <h1>Welcome to My Awesome App</h1>
-    <div id="firebaseui-auth-container"><p>frerferfefer</p></div>
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    <script>
+      function onSignIn(googleUser) {
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+      };
+    </script>
   </body>
 </html>
